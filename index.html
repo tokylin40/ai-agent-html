@@ -1,0 +1,781 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>2026 熱門 AI Agent 觀察站</title>
+  <style>
+    :root {
+      --bg: #f7f1e5;
+      --bg-soft: #fffaf2;
+      --ink: #132238;
+      --muted: #5f6c7b;
+      --line: rgba(19, 34, 56, 0.12);
+      --card: rgba(255, 250, 242, 0.82);
+      --accent: #e85d3f;
+      --accent-2: #007a78;
+      --accent-3: #f3b63a;
+      --shadow: 0 24px 80px rgba(19, 34, 56, 0.14);
+      --radius-xl: 28px;
+      --radius-lg: 22px;
+      --radius-md: 16px;
+      --max: 1180px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      font-family: "Avenir Next", "Segoe UI", "PingFang TC", "Noto Sans TC", sans-serif;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at 10% 10%, rgba(232, 93, 63, 0.12), transparent 28%),
+        radial-gradient(circle at 90% 18%, rgba(0, 122, 120, 0.15), transparent 24%),
+        radial-gradient(circle at 80% 80%, rgba(243, 182, 58, 0.16), transparent 20%),
+        linear-gradient(180deg, #fff7ea 0%, #f7f1e5 38%, #f3ecdf 100%);
+      min-height: 100vh;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      background-image:
+        linear-gradient(rgba(19, 34, 56, 0.025) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(19, 34, 56, 0.025) 1px, transparent 1px);
+      background-size: 32px 32px;
+      mask-image: radial-gradient(circle at center, black 58%, transparent 92%);
+    }
+
+    .wrap {
+      width: min(calc(100% - 32px), var(--max));
+      margin: 0 auto;
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero {
+      padding: 48px 0 28px;
+    }
+
+    .hero-shell {
+      border: 1px solid var(--line);
+      border-radius: var(--radius-xl);
+      background: linear-gradient(135deg, rgba(255,255,255,0.72), rgba(255,249,238,0.88));
+      backdrop-filter: blur(16px);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+      position: relative;
+    }
+
+    .hero-shell::after {
+      content: "";
+      position: absolute;
+      right: -80px;
+      top: -80px;
+      width: 240px;
+      height: 240px;
+      border-radius: 999px;
+      background: radial-gradient(circle, rgba(232, 93, 63, 0.18), transparent 68%);
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.25fr 0.75fr;
+      gap: 28px;
+      padding: 32px;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 14px;
+      border-radius: 999px;
+      background: rgba(19, 34, 56, 0.06);
+      color: var(--ink);
+      font-size: 13px;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      font-family: "Iowan Old Style", "Palatino Linotype", "Book Antiqua", Georgia, serif;
+      font-size: clamp(40px, 8vw, 72px);
+      line-height: 0.94;
+      margin: 18px 0 18px;
+      letter-spacing: -0.04em;
+      max-width: 10ch;
+    }
+
+    .lead {
+      font-size: clamp(17px, 2.6vw, 21px);
+      line-height: 1.65;
+      color: var(--muted);
+      max-width: 58ch;
+      margin: 0 0 24px;
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 14px;
+      flex-wrap: wrap;
+      margin-bottom: 28px;
+    }
+
+    .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      min-height: 46px;
+      padding: 0 18px;
+      border-radius: 999px;
+      border: 1px solid transparent;
+      font-weight: 700;
+      text-decoration: none;
+      transition: transform 180ms ease, box-shadow 180ms ease, background 180ms ease;
+    }
+
+    .button:hover {
+      transform: translateY(-2px);
+    }
+
+    .button.primary {
+      color: #fff;
+      background: linear-gradient(135deg, var(--accent), #d4472a);
+      box-shadow: 0 14px 26px rgba(232, 93, 63, 0.24);
+    }
+
+    .button.secondary {
+      color: var(--ink);
+      border-color: var(--line);
+      background: rgba(255,255,255,0.55);
+    }
+
+    .hero-meta {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .meta-card {
+      border: 1px solid var(--line);
+      border-radius: var(--radius-md);
+      background: rgba(255,255,255,0.58);
+      padding: 16px;
+    }
+
+    .meta-card strong {
+      display: block;
+      font-size: 24px;
+      margin-bottom: 8px;
+    }
+
+    .meta-card span {
+      color: var(--muted);
+      line-height: 1.5;
+      font-size: 14px;
+    }
+
+    .hero-side {
+      display: grid;
+      gap: 16px;
+      align-content: start;
+    }
+
+    .panel {
+      border: 1px solid var(--line);
+      border-radius: var(--radius-lg);
+      background: linear-gradient(180deg, rgba(255,255,255,0.84), rgba(252,246,236,0.84));
+      padding: 20px;
+    }
+
+    .panel h2,
+    .section h2,
+    .agent-list h2 {
+      margin: 0 0 14px;
+      font-size: 15px;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--muted);
+    }
+
+    .panel p,
+    .panel li {
+      color: var(--muted);
+      line-height: 1.65;
+      font-size: 15px;
+      margin: 0;
+    }
+
+    .panel ul,
+    .compare-list,
+    .source-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: grid;
+      gap: 12px;
+    }
+
+    .panel li,
+    .compare-list li,
+    .source-list li {
+      border-top: 1px solid rgba(19,34,56,0.08);
+      padding-top: 12px;
+    }
+
+    .panel li:first-child,
+    .compare-list li:first-child,
+    .source-list li:first-child {
+      border-top: 0;
+      padding-top: 0;
+    }
+
+    main {
+      padding-bottom: 48px;
+    }
+
+    .section {
+      margin-top: 26px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius-xl);
+      background: rgba(255, 250, 242, 0.72);
+      backdrop-filter: blur(14px);
+      box-shadow: var(--shadow);
+      padding: 24px;
+    }
+
+    .section-head {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 18px;
+    }
+
+    .section-title {
+      margin: 0;
+      font-family: "Iowan Old Style", "Palatino Linotype", Georgia, serif;
+      font-size: clamp(30px, 4vw, 42px);
+      letter-spacing: -0.03em;
+    }
+
+    .section-copy {
+      margin: 0;
+      color: var(--muted);
+      max-width: 60ch;
+      line-height: 1.7;
+    }
+
+    .agent-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 18px;
+    }
+
+    .agent-card {
+      position: relative;
+      overflow: hidden;
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--line);
+      background: linear-gradient(160deg, rgba(255,255,255,0.92), rgba(250,243,232,0.78));
+      padding: 22px;
+      min-height: 100%;
+      display: grid;
+      gap: 16px;
+      transform: translateY(14px);
+      opacity: 0;
+      animation: rise 700ms ease forwards;
+    }
+
+    .agent-card:nth-child(2) { animation-delay: 80ms; }
+    .agent-card:nth-child(3) { animation-delay: 160ms; }
+    .agent-card:nth-child(4) { animation-delay: 240ms; }
+    .agent-card:nth-child(5) { animation-delay: 320ms; }
+    .agent-card:nth-child(6) { animation-delay: 400ms; }
+
+    .agent-card::before {
+      content: "";
+      position: absolute;
+      inset: auto -60px -90px auto;
+      width: 180px;
+      height: 180px;
+      border-radius: 999px;
+      background: radial-gradient(circle, rgba(0, 122, 120, 0.12), transparent 65%);
+    }
+
+    .agent-top {
+      display: flex;
+      align-items: start;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .agent-name {
+      margin: 0 0 8px;
+      font-size: 28px;
+      line-height: 1;
+      letter-spacing: -0.04em;
+    }
+
+    .provider {
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 9px 12px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      background: rgba(232, 93, 63, 0.1);
+      color: var(--accent);
+      white-space: nowrap;
+    }
+
+    .summary {
+      margin: 0;
+      color: var(--ink);
+      line-height: 1.7;
+      font-size: 16px;
+    }
+
+    .fact-row {
+      display: grid;
+      gap: 10px;
+    }
+
+    .fact {
+      border-radius: 16px;
+      border: 1px solid rgba(19,34,56,0.08);
+      background: rgba(255,255,255,0.64);
+      padding: 12px 14px;
+    }
+
+    .fact strong {
+      display: block;
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--muted);
+      margin-bottom: 7px;
+    }
+
+    .fact span {
+      display: block;
+      line-height: 1.6;
+      color: var(--ink);
+      font-size: 15px;
+    }
+
+    .card-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
+
+    .status {
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+    .source-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--accent-2);
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 14px;
+    }
+
+    .compare-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+    }
+
+    .compare-card {
+      border: 1px solid var(--line);
+      border-radius: var(--radius-lg);
+      background: rgba(255,255,255,0.7);
+      padding: 20px;
+    }
+
+    .compare-card h3,
+    .source-card h3 {
+      margin: 0 0 12px;
+      font-size: 22px;
+      letter-spacing: -0.03em;
+    }
+
+    .compare-list li strong {
+      display: block;
+      margin-bottom: 4px;
+      font-size: 15px;
+    }
+
+    .compare-list li span,
+    .source-list li span {
+      color: var(--muted);
+      line-height: 1.6;
+      font-size: 14px;
+    }
+
+    .source-grid {
+      display: grid;
+      grid-template-columns: 1.25fr 0.75fr;
+      gap: 18px;
+      align-items: start;
+    }
+
+    .source-card {
+      border: 1px solid var(--line);
+      border-radius: var(--radius-lg);
+      background: rgba(255,255,255,0.74);
+      padding: 20px;
+    }
+
+    .source-list a {
+      color: var(--ink);
+      font-weight: 700;
+      text-decoration: none;
+    }
+
+    .footnote {
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.7;
+      margin-top: 16px;
+    }
+
+    @keyframes rise {
+      from {
+        opacity: 0;
+        transform: translateY(14px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @media (max-width: 980px) {
+      .hero-grid,
+      .source-grid,
+      .compare-grid,
+      .agent-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .hero-meta {
+        grid-template-columns: 1fr;
+      }
+
+      h1 {
+        max-width: none;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .wrap {
+        width: min(calc(100% - 20px), var(--max));
+      }
+
+      .hero {
+        padding-top: 20px;
+      }
+
+      .hero-grid,
+      .section {
+        padding: 18px;
+      }
+
+      .section-head {
+        align-items: start;
+        flex-direction: column;
+      }
+
+      .agent-name {
+        font-size: 24px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="hero">
+    <div class="wrap">
+      <div class="hero-shell">
+        <div class="hero-grid">
+          <section>
+            <span class="eyebrow">AI Agent Radar / 2026-05-22</span>
+            <h1>當前熱門 AI Agent 觀察站</h1>
+            <p class="lead">
+              這份頁面不是做市場占有率排名，而是整理 2026 年 5 月仍在快速推進、功能明確 agent 化、且話題度高的代表性產品，方便你快速看懂誰擅長研究、誰擅長操作電腦、誰偏向企業流程自動化。
+            </p>
+            <div class="hero-actions">
+              <a class="button primary" href="#agents">直接看名單</a>
+              <a class="button secondary" href="#sources">查看官方來源</a>
+            </div>
+            <div class="hero-meta">
+              <div class="meta-card">
+                <strong>6</strong>
+                <span>涵蓋個人助理、瀏覽器代理、桌面操作與企業流程自動化。</span>
+              </div>
+              <div class="meta-card">
+                <strong>3 類</strong>
+                <span>研究型、操作型、企業型，方便依使用情境挑選。</span>
+              </div>
+              <div class="meta-card">
+                <strong>2026</strong>
+                <span>以 2026 年 5 月 22 日前可查到的官方資訊為準。</span>
+              </div>
+            </div>
+          </section>
+
+          <aside class="hero-side">
+            <div class="panel">
+              <h2>先看結論</h2>
+              <ul>
+                <li>想找「幫你做完整線上任務」的通用型 agent，可先看 ChatGPT Agent、Manus、Claude Cowork。</li>
+                <li>想找「瀏覽器內自動操作」的 agent，可看 Project Mariner 與 Perplexity Comet。</li>
+                <li>想做企業內部工作流與多 agent 協作，可優先看 Microsoft Copilot Studio。</li>
+              </ul>
+            </div>
+            <div class="panel">
+              <h2>挑選時別忽略</h2>
+              <p>熱門不等於最適合。真正要看的是：能不能操作真實軟體、要不要連你的資料來源、是否需要人工確認高風險動作，以及是否有企業治理能力。</p>
+            </div>
+          </aside>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <section id="agents" class="section agent-list">
+      <div class="section-head">
+        <div>
+          <h2>Agent List</h2>
+          <h3 class="section-title">這 6 個產品最值得先看</h3>
+        </div>
+        <p class="section-copy">每張卡都用同一個角度整理：它能做什麼、適合誰、目前在什麼階段，避免只有行銷標語。</p>
+      </div>
+      <div class="agent-grid" id="agent-grid"></div>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <div>
+          <h2>Quick Compare</h2>
+          <h3 class="section-title">怎麼快速選</h3>
+        </div>
+        <p class="section-copy">如果你不是要全部研究完，而是只想先挑一條方向，可以先用下面這個簡表。</p>
+      </div>
+      <div class="compare-grid">
+        <article class="compare-card">
+          <h3>如果你是個人使用者</h3>
+          <ul class="compare-list">
+            <li>
+              <strong>研究 + 任務執行</strong>
+              <span>ChatGPT Agent、Manus 比較像「交辦後等成果」。</span>
+            </li>
+            <li>
+              <strong>瀏覽器內代辦</strong>
+              <span>Project Mariner、Comet 比較偏向直接在瀏覽器裡幫你查、比、點、填。</span>
+            </li>
+            <li>
+              <strong>桌面檔案與本機工作</strong>
+              <span>Claude Cowork 對本機檔案、應用程式和長步驟知識工作特別有吸引力。</span>
+            </li>
+          </ul>
+        </article>
+        <article class="compare-card">
+          <h3>如果你是團隊或公司</h3>
+          <ul class="compare-list">
+            <li>
+              <strong>內部流程自動化</strong>
+              <span>Copilot Studio 最強的是把 agent 放進企業既有系統與治理框架。</span>
+            </li>
+            <li>
+              <strong>多 agent 協作</strong>
+              <span>Copilot Studio 已把 multi-agent orchestration 當成主力方向；Manus 也在推平行研究與子代理協作。</span>
+            </li>
+            <li>
+              <strong>高風險操作</strong>
+              <span>無論哪家，只要涉及金流、登入與發送，都仍應保留人工確認。</span>
+            </li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <section id="sources" class="section">
+      <div class="section-head">
+        <div>
+          <h2>Sources</h2>
+          <h3 class="section-title">官方來源與判讀方法</h3>
+        </div>
+        <p class="section-copy">這頁盡量優先採用官方產品頁、官方說明文件或官方公告，而不是二手新聞整理。</p>
+      </div>
+      <div class="source-grid">
+        <article class="source-card">
+          <h3>這份名單怎麼選</h3>
+          <ul class="source-list">
+            <li>
+              <a href="https://openai.com/index/introducing-chatgpt-agent/" target="_blank" rel="noreferrer">OpenAI: Introducing ChatGPT agent</a>
+              <span>確認 ChatGPT Agent 的定位是可研究、規劃並代你完成複雜線上任務。</span>
+            </li>
+            <li>
+              <a href="https://www.anthropic.com/product/claude-cowork" target="_blank" rel="noreferrer">Anthropic: Claude Cowork</a>
+              <span>確認 Claude 已從純對話延伸到在電腦與應用程式上直接完成工作。</span>
+            </li>
+            <li>
+              <a href="https://deepmind.google/technologies/project-mariner/" target="_blank" rel="noreferrer">Google DeepMind: Project Mariner</a>
+              <span>確認 Google 的代理方向已走到瀏覽器中的多步驟操作。</span>
+            </li>
+            <li>
+              <a href="https://www.microsoft.com/en-us/microsoft-copilot/blog/copilot-studio/new-and-improved-multi-agent-orchestration-connected-experiences-and-faster-prompt-iteration/" target="_blank" rel="noreferrer">Microsoft Copilot Blog: multi-agent updates</a>
+              <span>確認企業 agent 平台化與多 agent 協作仍是 Microsoft 的主軸。</span>
+            </li>
+            <li>
+              <a href="https://www.perplexity.ai/comet/" target="_blank" rel="noreferrer">Perplexity: Comet</a>
+              <span>確認 Comet 的定位不是單純搜尋，而是 AI 原生瀏覽器助理。</span>
+            </li>
+            <li>
+              <a href="https://manus.im/docs" target="_blank" rel="noreferrer">Manus Documentation</a>
+              <span>確認 Manus 主打自治式 general AI agent 與完整工作交付。</span>
+            </li>
+          </ul>
+          <p class="footnote">註：這裡的「熱門」指 2026 年 5 月前仍有明確產品推進、持續更新或被官方重點呈現，不代表全球市占或唯一標準答案。</p>
+        </article>
+        <article class="source-card">
+          <h3>我會怎麼用這頁</h3>
+          <ul class="source-list">
+            <li>
+              <span>想做內部簡報：直接截圖卡片區，作為市場掃描首頁。</span>
+            </li>
+            <li>
+              <span>想挑工具試用：先看「適合誰」與「目前狀態」，可少踩很多限制。</span>
+            </li>
+            <li>
+              <span>想繼續做成網站：這個 HTML 已是獨立檔，可再加 logo、CTA、表單或多語版。</span>
+            </li>
+          </ul>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    const agents = [
+      {
+        name: "ChatGPT Agent",
+        provider: "OpenAI",
+        tag: "通用任務代理",
+        summary: "把研究、規劃、瀏覽網站、表單填寫、試算表編修與檔案分析整合在同一個 agent 流程裡，定位很像可直接交辦工作的線上助理。",
+        bestFor: "需要從需求到成果一次完成的人，例如市場研究、行程整理、競品分析、資料整理。",
+        power: "官方說明指出它可使用視覺瀏覽器、程式執行環境、第三方資料來源 app 與 terminal；任務通常在 5 到 30 分鐘內完成。",
+        status: "2025-07-17 發表；截至 2026-05 仍可由官方公告與說明頁追蹤更新。",
+        url: "https://openai.com/index/introducing-chatgpt-agent/"
+      },
+      {
+        name: "Claude Cowork",
+        provider: "Anthropic",
+        tag: "桌面工作代理",
+        summary: "Claude Cowork 的賣點是你只給目標，它就能在你的電腦、本機檔案與應用程式之間實際工作，最後交回完成品。",
+        bestFor: "知識工作者、本機文件處理、跨應用程式整理、需要長步驟但不想手動切換視窗的人。",
+        power: "Anthropic 同時提供 computer use 能力，可看螢幕、控制滑鼠鍵盤並與桌面環境互動，讓 agent 從聊天升級成操作型助手。",
+        status: "Claude Cowork 官方頁於 2026-05 仍在主推，Help Center 也顯示其桌面代理能力持續更新。",
+        url: "https://www.anthropic.com/product/claude-cowork"
+      },
+      {
+        name: "Project Mariner",
+        provider: "Google DeepMind",
+        tag: "瀏覽器操作代理",
+        summary: "Google 的 Project Mariner 主打在瀏覽器裡觀察、規劃、操作，能同時處理研究、規劃與資料輸入等任務。",
+        bestFor: "需要在多個網站來回比對、填表、整理採購或搜尋流程的人。",
+        power: "官方頁明確描述它能在虛擬機中的多個瀏覽器同時執行任務，並強調會觀察頁面、制定步驟與採取動作。",
+        status: "截至 2026-05，官方頁寫明美國的 Google AI Ultra 訂閱者可使用，仍屬 research prototype。",
+        url: "https://deepmind.google/technologies/project-mariner/"
+      },
+      {
+        name: "Copilot Studio",
+        provider: "Microsoft",
+        tag: "企業流程代理",
+        summary: "如果你的需求是把 agent 放進企業工作流、Teams、SharePoint 或既有 Microsoft 生態，Copilot Studio 目前非常強勢。",
+        bestFor: "企業客服、內部知識助理、跨部門流程、自動化審批與多 agent 協作。",
+        power: "Microsoft 2026 年更新重點放在 multi-agent orchestration，讓多個專門 agent 能交換資料、分工完成任務。",
+        status: "Microsoft 官方產品頁與 2026-04 更新都把它定位成 AI agent platform。",
+        url: "https://www.microsoft.com/en-us/microsoft-copilot/microsoft-copilot-studio/"
+      },
+      {
+        name: "Comet",
+        provider: "Perplexity",
+        tag: "AI 原生瀏覽器",
+        summary: "Comet 比較像『會幫你做事的瀏覽器』，不是只回答問題，而是在瀏覽情境中直接幫你摘要、規劃、購物、排程與導航網站。",
+        bestFor: "高度依賴瀏覽器工作的使用者，例如研究員、營運、行政、商務開發。",
+        power: "官方頁把它定義為 personal assistant and thinking partner，並強調可在各網站上做 AI 搜尋、即時脈絡理解與自動化操作。",
+        status: "截至 2026-05，產品頁與企業頁都仍持續推進與擴充部署能力。",
+        url: "https://www.perplexity.ai/comet/"
+      },
+      {
+        name: "Manus",
+        provider: "Manus",
+        tag: "自治型通用代理",
+        summary: "Manus 的市場印象很鮮明：不是只聊天，而是像有自己電腦的虛擬同事，會規劃、執行並交付完整產出。",
+        bestFor: "希望把研究、文件、簡報、試算表甚至網頁交給 agent 直接做出來的人。",
+        power: "官方文件寫得很直接：它是 autonomous general AI agent，可在完整沙盒環境中長時間工作並交付結果。",
+        status: "官方文件與產品更新頁在 2026 年仍持續擴張，例如平行化的 Wide Research。",
+        url: "https://manus.im/docs"
+      }
+    ];
+
+    const grid = document.getElementById('agent-grid');
+
+    grid.innerHTML = agents.map((agent) => `
+      <article class="agent-card">
+        <div class="agent-top">
+          <div>
+            <h3 class="agent-name">${agent.name}</h3>
+            <div class="provider">${agent.provider}</div>
+          </div>
+          <span class="pill">${agent.tag}</span>
+        </div>
+        <p class="summary">${agent.summary}</p>
+        <div class="fact-row">
+          <div class="fact">
+            <strong>適合誰</strong>
+            <span>${agent.bestFor}</span>
+          </div>
+          <div class="fact">
+            <strong>為什麼它現在很受關注</strong>
+            <span>${agent.power}</span>
+          </div>
+        </div>
+        <div class="card-footer">
+          <div class="status">${agent.status}</div>
+          <a class="source-link" href="${agent.url}" target="_blank" rel="noreferrer">官方來源</a>
+        </div>
+      </article>
+    `).join('');
+  </script>
+</body>
+</html>
