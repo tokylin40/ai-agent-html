@@ -6,17 +6,22 @@
   <title>2026 熱門 AI Agent 觀察站</title>
   <style>
     :root {
-      --bg: #f7f1e5;
-      --bg-soft: #fffaf2;
-      --ink: #132238;
-      --muted: #5f6c7b;
-      --line: rgba(19, 34, 56, 0.12);
-      --card: rgba(255, 250, 242, 0.82);
-      --accent: #e85d3f;
-      --accent-2: #007a78;
-      --accent-3: #f3b63a;
-      --shadow: 0 24px 80px rgba(19, 34, 56, 0.14);
-      --radius-xl: 28px;
+      --bg: #f5ebd9;
+      --bg-deep: #eadcc3;
+      --surface: rgba(255, 249, 239, 0.78);
+      --surface-strong: rgba(255, 252, 246, 0.9);
+      --ink: #112339;
+      --muted: #5d6876;
+      --line: rgba(17, 35, 57, 0.12);
+      --line-strong: rgba(17, 35, 57, 0.2);
+      --accent: #ed5a3c;
+      --accent-deep: #be381d;
+      --teal: #0f7f7b;
+      --gold: #f0bb49;
+      --sky: #5f88ff;
+      --shadow: 0 30px 80px rgba(17, 35, 57, 0.14);
+      --shadow-soft: 0 18px 40px rgba(17, 35, 57, 0.08);
+      --radius-xl: 30px;
       --radius-lg: 22px;
       --radius-md: 16px;
       --max: 1180px;
@@ -32,65 +37,98 @@
 
     body {
       margin: 0;
-      font-family: "Avenir Next", "Segoe UI", "PingFang TC", "Noto Sans TC", sans-serif;
-      color: var(--ink);
-      background:
-        radial-gradient(circle at 10% 10%, rgba(232, 93, 63, 0.12), transparent 28%),
-        radial-gradient(circle at 90% 18%, rgba(0, 122, 120, 0.15), transparent 24%),
-        radial-gradient(circle at 80% 80%, rgba(243, 182, 58, 0.16), transparent 20%),
-        linear-gradient(180deg, #fff7ea 0%, #f7f1e5 38%, #f3ecdf 100%);
       min-height: 100vh;
+      color: var(--ink);
+      font-family: "Avenir Next", "Segoe UI", "PingFang TC", "Noto Sans TC", sans-serif;
+      background:
+        radial-gradient(circle at 12% 10%, rgba(237, 90, 60, 0.18), transparent 22%),
+        radial-gradient(circle at 88% 12%, rgba(15, 127, 123, 0.15), transparent 22%),
+        radial-gradient(circle at 82% 84%, rgba(240, 187, 73, 0.18), transparent 20%),
+        linear-gradient(180deg, #fff8ec 0%, var(--bg) 35%, var(--bg-deep) 100%);
+      overflow-x: hidden;
     }
 
-    body::before {
+    body::before,
+    body::after {
       content: "";
       position: fixed;
       inset: 0;
       pointer-events: none;
+      z-index: 0;
+    }
+
+    body::before {
       background-image:
-        linear-gradient(rgba(19, 34, 56, 0.025) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(19, 34, 56, 0.025) 1px, transparent 1px);
-      background-size: 32px 32px;
-      mask-image: radial-gradient(circle at center, black 58%, transparent 92%);
+        linear-gradient(rgba(17, 35, 57, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(17, 35, 57, 0.03) 1px, transparent 1px);
+      background-size: 34px 34px;
+      mask-image: radial-gradient(circle at center, black 56%, transparent 90%);
+    }
+
+    body::after {
+      background:
+        radial-gradient(circle at 50% 0%, rgba(255, 255, 255, 0.55), transparent 40%),
+        linear-gradient(180deg, rgba(255,255,255,0.25), transparent 35%);
     }
 
     .wrap {
-      width: min(calc(100% - 32px), var(--max));
+      width: min(calc(100% - 28px), var(--max));
       margin: 0 auto;
       position: relative;
       z-index: 1;
     }
 
     .hero {
-      padding: 48px 0 28px;
+      padding: 28px 0 26px;
     }
 
     .hero-shell {
-      border: 1px solid var(--line);
-      border-radius: var(--radius-xl);
-      background: linear-gradient(135deg, rgba(255,255,255,0.72), rgba(255,249,238,0.88));
-      backdrop-filter: blur(16px);
-      box-shadow: var(--shadow);
-      overflow: hidden;
       position: relative;
+      overflow: hidden;
+      border-radius: 34px;
+      border: 1px solid var(--line);
+      background:
+        linear-gradient(135deg, rgba(255,255,255,0.74), rgba(255,247,233,0.72)),
+        linear-gradient(180deg, rgba(255,255,255,0.18), rgba(255,255,255,0));
+      backdrop-filter: blur(18px);
+      box-shadow: var(--shadow);
+      isolation: isolate;
     }
 
+    .hero-shell::before,
     .hero-shell::after {
       content: "";
       position: absolute;
+      border-radius: 999px;
+      filter: blur(6px);
+      opacity: 0.9;
+      z-index: -1;
+    }
+
+    .hero-shell::before {
+      width: 280px;
+      height: 280px;
       right: -80px;
-      top: -80px;
+      top: -70px;
+      background: radial-gradient(circle, rgba(237, 90, 60, 0.28), transparent 66%);
+      animation: floatBlob 10s ease-in-out infinite;
+    }
+
+    .hero-shell::after {
       width: 240px;
       height: 240px;
-      border-radius: 999px;
-      background: radial-gradient(circle, rgba(232, 93, 63, 0.18), transparent 68%);
+      left: -80px;
+      bottom: -120px;
+      background: radial-gradient(circle, rgba(15, 127, 123, 0.22), transparent 66%);
+      animation: floatBlob 13s ease-in-out infinite reverse;
     }
 
     .hero-grid {
       display: grid;
-      grid-template-columns: 1.25fr 0.75fr;
+      grid-template-columns: minmax(0, 1.1fr) minmax(320px, 0.9fr);
       gap: 28px;
-      padding: 32px;
+      padding: 34px;
+      align-items: stretch;
     }
 
     .eyebrow {
@@ -99,65 +137,200 @@
       gap: 10px;
       padding: 8px 14px;
       border-radius: 999px;
-      background: rgba(19, 34, 56, 0.06);
-      color: var(--ink);
-      font-size: 13px;
-      letter-spacing: 0.06em;
+      border: 1px solid rgba(17, 35, 57, 0.09);
+      background: rgba(255,255,255,0.5);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.5);
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: 0.12em;
       text-transform: uppercase;
     }
 
+    .eyebrow::before {
+      content: "";
+      width: 9px;
+      height: 9px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, var(--accent), var(--gold));
+      box-shadow: 0 0 0 6px rgba(237, 90, 60, 0.12);
+    }
+
     h1 {
-      font-family: "Iowan Old Style", "Palatino Linotype", "Book Antiqua", Georgia, serif;
-      font-size: clamp(40px, 8vw, 72px);
-      line-height: 0.94;
       margin: 18px 0 18px;
-      letter-spacing: -0.04em;
       max-width: 10ch;
+      font-family: "Iowan Old Style", "Palatino Linotype", Georgia, serif;
+      font-size: clamp(46px, 9vw, 86px);
+      line-height: 0.9;
+      letter-spacing: -0.05em;
+    }
+
+    .title-accent {
+      display: block;
+      background: linear-gradient(135deg, var(--accent), #f18b4f 46%, var(--teal));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      text-shadow: 0 10px 40px rgba(237, 90, 60, 0.16);
     }
 
     .lead {
-      font-size: clamp(17px, 2.6vw, 21px);
-      line-height: 1.65;
-      color: var(--muted);
+      margin: 0 0 26px;
       max-width: 58ch;
-      margin: 0 0 24px;
+      color: var(--muted);
+      font-size: clamp(17px, 2.4vw, 21px);
+      line-height: 1.72;
     }
 
     .hero-actions {
       display: flex;
-      gap: 14px;
       flex-wrap: wrap;
+      gap: 14px;
       margin-bottom: 28px;
     }
 
     .button {
+      position: relative;
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      gap: 8px;
-      min-height: 46px;
-      padding: 0 18px;
+      gap: 10px;
+      min-height: 50px;
+      padding: 0 20px;
       border-radius: 999px;
       border: 1px solid transparent;
-      font-weight: 700;
       text-decoration: none;
-      transition: transform 180ms ease, box-shadow 180ms ease, background 180ms ease;
+      font-size: 15px;
+      font-weight: 800;
+      letter-spacing: 0.01em;
+      transition: transform 220ms ease, box-shadow 220ms ease, border-color 220ms ease, background 220ms ease;
+      overflow: hidden;
+      isolation: isolate;
+    }
+
+    .button::after {
+      content: "";
+      position: absolute;
+      inset: 1px;
+      border-radius: inherit;
+      opacity: 0;
+      transition: opacity 220ms ease;
+      z-index: -1;
     }
 
     .button:hover {
-      transform: translateY(-2px);
+      transform: translateY(-3px) scale(1.01);
+    }
+
+    .button:hover::after {
+      opacity: 1;
     }
 
     .button.primary {
       color: #fff;
-      background: linear-gradient(135deg, var(--accent), #d4472a);
-      box-shadow: 0 14px 26px rgba(232, 93, 63, 0.24);
+      background: linear-gradient(135deg, var(--accent), var(--accent-deep));
+      box-shadow: 0 16px 32px rgba(237, 90, 60, 0.26);
+    }
+
+    .button.primary::after {
+      background: linear-gradient(135deg, rgba(255,255,255,0.24), rgba(255,255,255,0));
     }
 
     .button.secondary {
       color: var(--ink);
-      border-color: var(--line);
       background: rgba(255,255,255,0.55);
+      border-color: var(--line);
+      box-shadow: var(--shadow-soft);
+    }
+
+    .button.secondary::after {
+      background: linear-gradient(135deg, rgba(15,127,123,0.12), rgba(95,136,255,0.08));
+    }
+
+    .button.ghost {
+      color: var(--teal);
+      background: rgba(15,127,123,0.08);
+      border-color: rgba(15,127,123,0.14);
+    }
+
+    .hero-strip {
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 14px;
+      margin-bottom: 26px;
+    }
+
+    .signal,
+    .note-panel,
+    .radar-panel,
+    .meta-card,
+    .panel,
+    .compare-card,
+    .source-card,
+    .agent-card,
+    .stat-card {
+      border: 1px solid var(--line);
+      background: linear-gradient(180deg, rgba(255,255,255,0.82), rgba(255,248,236,0.7));
+      box-shadow: var(--shadow-soft);
+    }
+
+    .signal {
+      display: grid;
+      gap: 10px;
+      border-radius: 20px;
+      padding: 16px 18px;
+    }
+
+    .signal-label {
+      color: var(--muted);
+      font-size: 12px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      font-weight: 800;
+    }
+
+    .signal strong {
+      font-size: 26px;
+      letter-spacing: -0.04em;
+    }
+
+    .signal span {
+      color: var(--muted);
+      line-height: 1.65;
+      font-size: 14px;
+    }
+
+    .note-panel {
+      position: relative;
+      overflow: hidden;
+      border-radius: 20px;
+      padding: 16px 18px;
+      background: linear-gradient(135deg, rgba(15,127,123,0.12), rgba(255,255,255,0.72));
+    }
+
+    .note-panel::after {
+      content: "";
+      position: absolute;
+      inset: auto -30px -40px auto;
+      width: 120px;
+      height: 120px;
+      border-radius: 999px;
+      background: radial-gradient(circle, rgba(15,127,123,0.18), transparent 66%);
+    }
+
+    .note-panel strong {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 14px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .note-panel span {
+      position: relative;
+      color: var(--muted);
+      line-height: 1.65;
+      font-size: 14px;
+      z-index: 1;
     }
 
     .hero-meta {
@@ -167,21 +340,26 @@
     }
 
     .meta-card {
-      border: 1px solid var(--line);
-      border-radius: var(--radius-md);
-      background: rgba(255,255,255,0.58);
+      border-radius: 18px;
       padding: 16px;
+      transition: transform 220ms ease, border-color 220ms ease;
+    }
+
+    .meta-card:hover {
+      transform: translateY(-4px);
+      border-color: var(--line-strong);
     }
 
     .meta-card strong {
       display: block;
-      font-size: 24px;
       margin-bottom: 8px;
+      font-size: 26px;
+      letter-spacing: -0.04em;
     }
 
     .meta-card span {
       color: var(--muted);
-      line-height: 1.5;
+      line-height: 1.55;
       font-size: 14px;
     }
 
@@ -191,10 +369,50 @@
       align-content: start;
     }
 
-    .panel {
-      border: 1px solid var(--line);
-      border-radius: var(--radius-lg);
-      background: linear-gradient(180deg, rgba(255,255,255,0.84), rgba(252,246,236,0.84));
+    .radar-panel {
+      position: relative;
+      min-height: 100%;
+      border-radius: 26px;
+      padding: 22px;
+      overflow: hidden;
+      background:
+        linear-gradient(180deg, rgba(255,255,255,0.88), rgba(249,243,233,0.78)),
+        radial-gradient(circle at 50% 50%, rgba(95,136,255,0.12), transparent 52%);
+    }
+
+    .radar-panel::before {
+      content: "";
+      position: absolute;
+      inset: 50% auto auto 50%;
+      width: 320px;
+      height: 320px;
+      transform: translate(-50%, -50%);
+      border-radius: 999px;
+      border: 1px solid rgba(17,35,57,0.08);
+      box-shadow:
+        0 0 0 36px rgba(17,35,57,0.03),
+        0 0 0 72px rgba(17,35,57,0.025),
+        0 0 0 108px rgba(17,35,57,0.02);
+      pointer-events: none;
+    }
+
+    .radar-panel::after {
+      content: "";
+      position: absolute;
+      inset: 50% auto auto 50%;
+      width: 240px;
+      height: 2px;
+      transform-origin: left center;
+      transform: rotate(0deg);
+      background: linear-gradient(90deg, rgba(15,127,123,0.65), transparent);
+      animation: scan 6s linear infinite;
+      pointer-events: none;
+    }
+
+    .panel,
+    .source-card,
+    .compare-card {
+      border-radius: 22px;
       padding: 20px;
     }
 
@@ -202,26 +420,80 @@
     .section h2,
     .agent-list h2 {
       margin: 0 0 14px;
-      font-size: 15px;
-      text-transform: uppercase;
-      letter-spacing: 0.1em;
       color: var(--muted);
+      font-size: 13px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
     }
 
+    .radar-title {
+      margin: 0 0 12px;
+      font-family: "Iowan Old Style", "Palatino Linotype", Georgia, serif;
+      font-size: 32px;
+      line-height: 1;
+      letter-spacing: -0.04em;
+      max-width: 10ch;
+    }
+
+    .radar-copy,
     .panel p,
-    .panel li {
+    .panel li,
+    .compare-list li span,
+    .source-list li span,
+    .footnote,
+    .section-copy,
+    .summary,
+    .fact span,
+    .status {
       color: var(--muted);
-      line-height: 1.65;
-      font-size: 15px;
-      margin: 0;
+      line-height: 1.68;
+    }
+
+    .radar-stack {
+      display: grid;
+      gap: 12px;
+      margin-top: 18px;
+    }
+
+    .stat-card {
+      position: relative;
+      display: grid;
+      gap: 6px;
+      padding: 14px 16px;
+      border-radius: 18px;
+      background: linear-gradient(135deg, rgba(255,255,255,0.88), rgba(248,243,235,0.72));
+      overflow: hidden;
+    }
+
+    .stat-card::after {
+      content: "";
+      position: absolute;
+      inset: auto -30px -30px auto;
+      width: 90px;
+      height: 90px;
+      border-radius: 999px;
+      background: radial-gradient(circle, rgba(240,187,73,0.2), transparent 66%);
+    }
+
+    .stat-card strong {
+      position: relative;
+      font-size: 17px;
+      z-index: 1;
+    }
+
+    .stat-card span {
+      position: relative;
+      color: var(--muted);
+      font-size: 14px;
+      z-index: 1;
     }
 
     .panel ul,
     .compare-list,
     .source-list {
       list-style: none;
-      padding: 0;
       margin: 0;
+      padding: 0;
       display: grid;
       gap: 12px;
     }
@@ -229,8 +501,10 @@
     .panel li,
     .compare-list li,
     .source-list li {
-      border-top: 1px solid rgba(19,34,56,0.08);
+      border-top: 1px solid rgba(17,35,57,0.08);
       padding-top: 12px;
+      margin: 0;
+      font-size: 15px;
     }
 
     .panel li:first-child,
@@ -241,14 +515,14 @@
     }
 
     main {
-      padding-bottom: 48px;
+      padding-bottom: 52px;
     }
 
     .section {
       margin-top: 26px;
+      border-radius: 30px;
       border: 1px solid var(--line);
-      border-radius: var(--radius-xl);
-      background: rgba(255, 250, 242, 0.72);
+      background: linear-gradient(180deg, rgba(255,250,242,0.76), rgba(252,245,236,0.62));
       backdrop-filter: blur(14px);
       box-shadow: var(--shadow);
       padding: 24px;
@@ -258,22 +532,21 @@
       display: flex;
       align-items: end;
       justify-content: space-between;
-      gap: 16px;
+      gap: 18px;
       margin-bottom: 18px;
     }
 
     .section-title {
       margin: 0;
       font-family: "Iowan Old Style", "Palatino Linotype", Georgia, serif;
-      font-size: clamp(30px, 4vw, 42px);
-      letter-spacing: -0.03em;
+      font-size: clamp(30px, 4vw, 44px);
+      letter-spacing: -0.04em;
     }
 
     .section-copy {
       margin: 0;
-      color: var(--muted);
       max-width: 60ch;
-      line-height: 1.7;
+      font-size: 15px;
     }
 
     .agent-grid {
@@ -285,32 +558,48 @@
     .agent-card {
       position: relative;
       overflow: hidden;
-      border-radius: var(--radius-lg);
-      border: 1px solid var(--line);
-      background: linear-gradient(160deg, rgba(255,255,255,0.92), rgba(250,243,232,0.78));
-      padding: 22px;
-      min-height: 100%;
       display: grid;
       gap: 16px;
-      transform: translateY(14px);
+      min-height: 100%;
+      padding: 22px;
+      border-radius: 24px;
+      transform: translateY(20px);
       opacity: 0;
-      animation: rise 700ms ease forwards;
+      transition: transform 260ms ease, border-color 260ms ease, box-shadow 260ms ease;
     }
 
-    .agent-card:nth-child(2) { animation-delay: 80ms; }
-    .agent-card:nth-child(3) { animation-delay: 160ms; }
-    .agent-card:nth-child(4) { animation-delay: 240ms; }
-    .agent-card:nth-child(5) { animation-delay: 320ms; }
-    .agent-card:nth-child(6) { animation-delay: 400ms; }
+    .agent-card.is-visible {
+      animation: rise 800ms cubic-bezier(.2,.7,.2,1) forwards;
+    }
 
-    .agent-card::before {
+    .agent-card:hover {
+      transform: translateY(-6px) rotate(-0.2deg);
+      border-color: var(--line-strong);
+      box-shadow: 0 30px 60px rgba(17, 35, 57, 0.12);
+    }
+
+    .agent-card::before,
+    .agent-card::after {
       content: "";
       position: absolute;
-      inset: auto -60px -90px auto;
+      border-radius: 999px;
+      pointer-events: none;
+    }
+
+    .agent-card::before {
       width: 180px;
       height: 180px;
-      border-radius: 999px;
-      background: radial-gradient(circle, rgba(0, 122, 120, 0.12), transparent 65%);
+      right: -66px;
+      bottom: -90px;
+      background: radial-gradient(circle, rgba(15,127,123,0.15), transparent 65%);
+    }
+
+    .agent-card::after {
+      width: 120px;
+      height: 120px;
+      left: -36px;
+      top: -36px;
+      background: radial-gradient(circle, rgba(95,136,255,0.12), transparent 65%);
     }
 
     .agent-top {
@@ -322,9 +611,9 @@
 
     .agent-name {
       margin: 0 0 8px;
-      font-size: 28px;
-      line-height: 1;
-      letter-spacing: -0.04em;
+      font-size: 30px;
+      letter-spacing: -0.05em;
+      line-height: 0.95;
     }
 
     .provider {
@@ -336,21 +625,19 @@
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      padding: 9px 12px;
+      padding: 10px 12px;
       border-radius: 999px;
+      background: linear-gradient(135deg, rgba(237,90,60,0.1), rgba(240,187,73,0.12));
+      color: var(--accent);
       font-size: 12px;
       font-weight: 800;
       letter-spacing: 0.08em;
       text-transform: uppercase;
-      background: rgba(232, 93, 63, 0.1);
-      color: var(--accent);
       white-space: nowrap;
     }
 
     .summary {
       margin: 0;
-      color: var(--ink);
-      line-height: 1.7;
       font-size: 16px;
     }
 
@@ -360,26 +647,27 @@
     }
 
     .fact {
-      border-radius: 16px;
-      border: 1px solid rgba(19,34,56,0.08);
-      background: rgba(255,255,255,0.64);
+      border-radius: 18px;
+      border: 1px solid rgba(17,35,57,0.08);
+      background: rgba(255,255,255,0.62);
       padding: 12px 14px;
     }
 
     .fact strong {
       display: block;
-      font-size: 13px;
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      color: var(--muted);
       margin-bottom: 7px;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
     }
 
     .fact span {
       display: block;
-      line-height: 1.6;
       color: var(--ink);
       font-size: 15px;
+      line-height: 1.62;
     }
 
     .card-footer {
@@ -391,39 +679,50 @@
     }
 
     .status {
-      color: var(--muted);
       font-size: 13px;
-      line-height: 1.5;
     }
 
     .source-link {
       display: inline-flex;
       align-items: center;
       gap: 8px;
-      color: var(--accent-2);
+      padding: 10px 14px;
+      border-radius: 999px;
+      border: 1px solid rgba(15,127,123,0.14);
+      background: rgba(15,127,123,0.08);
+      color: var(--teal);
       text-decoration: none;
-      font-weight: 700;
       font-size: 14px;
+      font-weight: 800;
+      transition: transform 220ms ease, background 220ms ease, border-color 220ms ease;
     }
 
-    .compare-grid {
+    .source-link:hover {
+      transform: translateY(-2px);
+      background: rgba(15,127,123,0.12);
+      border-color: rgba(15,127,123,0.2);
+    }
+
+    .compare-grid,
+    .source-grid {
       display: grid;
-      grid-template-columns: 1fr 1fr;
       gap: 18px;
     }
 
-    .compare-card {
-      border: 1px solid var(--line);
-      border-radius: var(--radius-lg);
-      background: rgba(255,255,255,0.7);
-      padding: 20px;
+    .compare-grid {
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .source-grid {
+      grid-template-columns: 1.25fr 0.75fr;
+      align-items: start;
     }
 
     .compare-card h3,
     .source-card h3 {
       margin: 0 0 12px;
-      font-size: 22px;
-      letter-spacing: -0.03em;
+      font-size: 24px;
+      letter-spacing: -0.04em;
     }
 
     .compare-list li strong {
@@ -432,44 +731,75 @@
       font-size: 15px;
     }
 
-    .compare-list li span,
-    .source-list li span {
-      color: var(--muted);
-      line-height: 1.6;
-      font-size: 14px;
-    }
-
-    .source-grid {
-      display: grid;
-      grid-template-columns: 1.25fr 0.75fr;
-      gap: 18px;
-      align-items: start;
-    }
-
-    .source-card {
-      border: 1px solid var(--line);
-      border-radius: var(--radius-lg);
-      background: rgba(255,255,255,0.74);
-      padding: 20px;
-    }
-
     .source-list a {
       color: var(--ink);
-      font-weight: 700;
       text-decoration: none;
+      font-weight: 800;
     }
 
     .footnote {
-      color: var(--muted);
-      font-size: 13px;
-      line-height: 1.7;
       margin-top: 16px;
+      font-size: 13px;
+    }
+
+    .floaters {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      overflow: hidden;
+    }
+
+    .floater {
+      position: absolute;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,0.45);
+      background: rgba(255,255,255,0.16);
+      backdrop-filter: blur(10px);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.35);
+      animation: drift 14s ease-in-out infinite;
+    }
+
+    .floater.one {
+      width: 110px;
+      height: 110px;
+      top: 12%;
+      right: 23%;
+      animation-duration: 16s;
+    }
+
+    .floater.two {
+      width: 68px;
+      height: 68px;
+      top: 52%;
+      right: 8%;
+      animation-duration: 12s;
+      animation-delay: -3s;
+    }
+
+    .floater.three {
+      width: 86px;
+      height: 86px;
+      bottom: 12%;
+      left: 42%;
+      animation-duration: 18s;
+      animation-delay: -6s;
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(18px);
+      transition: opacity 700ms ease, transform 700ms ease;
+    }
+
+    .reveal.is-visible {
+      opacity: 1;
+      transform: translateY(0);
     }
 
     @keyframes rise {
       from {
         opacity: 0;
-        transform: translateY(14px);
+        transform: translateY(20px);
       }
       to {
         opacity: 1;
@@ -477,11 +807,39 @@
       }
     }
 
+    @keyframes scan {
+      from {
+        transform: rotate(0deg);
+      }
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    @keyframes drift {
+      0%, 100% {
+        transform: translate3d(0, 0, 0);
+      }
+      50% {
+        transform: translate3d(0, -16px, 0);
+      }
+    }
+
+    @keyframes floatBlob {
+      0%, 100% {
+        transform: translate3d(0, 0, 0) scale(1);
+      }
+      50% {
+        transform: translate3d(0, -16px, 0) scale(1.05);
+      }
+    }
+
     @media (max-width: 980px) {
       .hero-grid,
-      .source-grid,
+      .hero-strip,
+      .agent-grid,
       .compare-grid,
-      .agent-grid {
+      .source-grid {
         grid-template-columns: 1fr;
       }
 
@@ -492,15 +850,24 @@
       h1 {
         max-width: none;
       }
+
+      .radar-panel::before {
+        width: 240px;
+        height: 240px;
+        box-shadow:
+          0 0 0 26px rgba(17,35,57,0.03),
+          0 0 0 52px rgba(17,35,57,0.025),
+          0 0 0 78px rgba(17,35,57,0.02);
+      }
     }
 
     @media (max-width: 640px) {
       .wrap {
-        width: min(calc(100% - 20px), var(--max));
+        width: min(calc(100% - 18px), var(--max));
       }
 
       .hero {
-        padding-top: 20px;
+        padding-top: 16px;
       }
 
       .hero-grid,
@@ -509,12 +876,24 @@
       }
 
       .section-head {
-        align-items: start;
         flex-direction: column;
+        align-items: start;
       }
 
       .agent-name {
-        font-size: 24px;
+        font-size: 26px;
+      }
+
+      .hero-shell {
+        border-radius: 28px;
+      }
+
+      .button {
+        width: 100%;
+      }
+
+      .floater {
+        display: none;
       }
     }
   </style>
@@ -522,46 +901,78 @@
 <body>
   <header class="hero">
     <div class="wrap">
-      <div class="hero-shell">
+      <div class="hero-shell reveal">
+        <div class="floaters" aria-hidden="true">
+          <span class="floater one"></span>
+          <span class="floater two"></span>
+          <span class="floater three"></span>
+        </div>
         <div class="hero-grid">
           <section>
             <span class="eyebrow">AI Agent Radar / 2026-05-22</span>
-            <h1>當前熱門 AI Agent 觀察站</h1>
+            <h1>當前熱門 <span class="title-accent">AI Agent</span> 觀察站</h1>
             <p class="lead">
-              這份頁面不是做市場占有率排名，而是整理 2026 年 5 月仍在快速推進、功能明確 agent 化、且話題度高的代表性產品，方便你快速看懂誰擅長研究、誰擅長操作電腦、誰偏向企業流程自動化。
+              一頁看懂 2026 年 5 月最值得關注的 agent 產品：哪些擅長研究、哪些能操作瀏覽器或電腦、哪些適合導入企業流程。這不是空泛榜單，而是一份能拿去展示和比較的視覺化快報。
             </p>
+            <div class="hero-strip">
+              <div class="signal">
+                <div class="signal-label">Focus Signal</div>
+                <strong>從聊天機器人，進化成可交辦工作的數位同事</strong>
+                <span>今年真正有差異的不是模型名稱，而是誰能跨工具執行、保持上下文，最後交付結果。</span>
+              </div>
+              <div class="note-panel">
+                <strong>適合簡報開場</strong>
+                <span>這頁已經整理成對比結構，你可以直接拿來做產品掃描、內部提案或選型討論。</span>
+              </div>
+            </div>
             <div class="hero-actions">
-              <a class="button primary" href="#agents">直接看名單</a>
+              <a class="button primary" href="#agents">進入熱門名單</a>
               <a class="button secondary" href="#sources">查看官方來源</a>
+              <a class="button ghost" href="#compare">快速比較</a>
             </div>
             <div class="hero-meta">
               <div class="meta-card">
                 <strong>6</strong>
-                <span>涵蓋個人助理、瀏覽器代理、桌面操作與企業流程自動化。</span>
+                <span>精選六個目前最具代表性的 agent 產品，不把頁面塞成雜訊清單。</span>
               </div>
               <div class="meta-card">
                 <strong>3 類</strong>
-                <span>研究型、操作型、企業型，方便依使用情境挑選。</span>
+                <span>研究型、操作型、企業型，能快速定位使用場景與導入方式。</span>
               </div>
               <div class="meta-card">
-                <strong>2026</strong>
-                <span>以 2026 年 5 月 22 日前可查到的官方資訊為準。</span>
+                <strong>HTML</strong>
+                <span>單檔即可部署，適合 GitHub Pages、簡報頁、產品介紹頁或個人展示站。</span>
               </div>
             </div>
           </section>
 
           <aside class="hero-side">
-            <div class="panel">
+            <div class="radar-panel reveal">
+              <h2>Signal Board</h2>
+              <h3 class="radar-title">AI agent 的競爭焦點已經變了</h3>
+              <p class="radar-copy">真正拉開差距的，不只是回答品質，而是能否長任務執行、能否跨網頁或桌面操作，以及能否進入真實團隊流程。</p>
+              <div class="radar-stack">
+                <div class="stat-card">
+                  <strong>研究型 agent</strong>
+                  <span>重點在搜尋、閱讀、整理、規劃與交付報告。</span>
+                </div>
+                <div class="stat-card">
+                  <strong>操作型 agent</strong>
+                  <span>重點在瀏覽器、自動填表、跨頁操作與執行步驟。</span>
+                </div>
+                <div class="stat-card">
+                  <strong>企業型 agent</strong>
+                  <span>重點在治理、權限、流程串接與多代理協作。</span>
+                </div>
+              </div>
+            </div>
+            <div class="panel reveal">
               <h2>先看結論</h2>
               <ul>
-                <li>想找「幫你做完整線上任務」的通用型 agent，可先看 ChatGPT Agent、Manus、Claude Cowork。</li>
-                <li>想找「瀏覽器內自動操作」的 agent，可看 Project Mariner 與 Perplexity Comet。</li>
-                <li>想做企業內部工作流與多 agent 協作，可優先看 Microsoft Copilot Studio。</li>
+                <li>想找通用交辦型 agent，先看 ChatGPT Agent、Manus、Claude Cowork。</li>
+                <li>想看瀏覽器內自動操作，重點是 Project Mariner 與 Perplexity Comet。</li>
+                <li>企業流程與多 agent 協作，Copilot Studio 目前最像完整平台。</li>
               </ul>
-            </div>
-            <div class="panel">
-              <h2>挑選時別忽略</h2>
-              <p>熱門不等於最適合。真正要看的是：能不能操作真實軟體、要不要連你的資料來源、是否需要人工確認高風險動作，以及是否有企業治理能力。</p>
             </div>
           </aside>
         </div>
@@ -570,24 +981,24 @@
   </header>
 
   <main class="wrap">
-    <section id="agents" class="section agent-list">
+    <section id="agents" class="section agent-list reveal">
       <div class="section-head">
         <div>
           <h2>Agent List</h2>
           <h3 class="section-title">這 6 個產品最值得先看</h3>
         </div>
-        <p class="section-copy">每張卡都用同一個角度整理：它能做什麼、適合誰、目前在什麼階段，避免只有行銷標語。</p>
+        <p class="section-copy">同一套比較框架：定位、適合誰、為什麼現在有話題、目前狀態與官方來源，避免只剩宣傳語氣。</p>
       </div>
       <div class="agent-grid" id="agent-grid"></div>
     </section>
 
-    <section class="section">
+    <section id="compare" class="section reveal">
       <div class="section-head">
         <div>
           <h2>Quick Compare</h2>
           <h3 class="section-title">怎麼快速選</h3>
         </div>
-        <p class="section-copy">如果你不是要全部研究完，而是只想先挑一條方向，可以先用下面這個簡表。</p>
+        <p class="section-copy">如果你不是要全部研究完，而是想先選一個方向開始測試，先看這裡就夠。</p>
       </div>
       <div class="compare-grid">
         <article class="compare-card">
@@ -595,15 +1006,15 @@
           <ul class="compare-list">
             <li>
               <strong>研究 + 任務執行</strong>
-              <span>ChatGPT Agent、Manus 比較像「交辦後等成果」。</span>
+              <span>ChatGPT Agent、Manus 比較像「交辦後等成果」的模式。</span>
             </li>
             <li>
               <strong>瀏覽器內代辦</strong>
-              <span>Project Mariner、Comet 比較偏向直接在瀏覽器裡幫你查、比、點、填。</span>
+              <span>Project Mariner、Comet 更像在網站之間幫你查、比、點、填。</span>
             </li>
             <li>
-              <strong>桌面檔案與本機工作</strong>
-              <span>Claude Cowork 對本機檔案、應用程式和長步驟知識工作特別有吸引力。</span>
+              <strong>桌面與本機工作</strong>
+              <span>Claude Cowork 對本機檔案、跨 app 操作和長步驟知識工作更有吸引力。</span>
             </li>
           </ul>
         </article>
@@ -612,28 +1023,28 @@
           <ul class="compare-list">
             <li>
               <strong>內部流程自動化</strong>
-              <span>Copilot Studio 最強的是把 agent 放進企業既有系統與治理框架。</span>
+              <span>Copilot Studio 最像企業級 agent 平台，可以落到實際系統與治理框架。</span>
             </li>
             <li>
               <strong>多 agent 協作</strong>
-              <span>Copilot Studio 已把 multi-agent orchestration 當成主力方向；Manus 也在推平行研究與子代理協作。</span>
+              <span>Copilot Studio 已把 multi-agent orchestration 當主軸；Manus 也在推平行研究與子代理協作。</span>
             </li>
             <li>
               <strong>高風險操作</strong>
-              <span>無論哪家，只要涉及金流、登入與發送，都仍應保留人工確認。</span>
+              <span>涉及付款、登入、資料刪除或發送時，仍應保留人工確認，不要完全放手。</span>
             </li>
           </ul>
         </article>
       </div>
     </section>
 
-    <section id="sources" class="section">
+    <section id="sources" class="section reveal">
       <div class="section-head">
         <div>
           <h2>Sources</h2>
           <h3 class="section-title">官方來源與判讀方法</h3>
         </div>
-        <p class="section-copy">這頁盡量優先採用官方產品頁、官方說明文件或官方公告，而不是二手新聞整理。</p>
+        <p class="section-copy">這份頁面優先引用官方產品頁、官方說明文件或官方公告，不依賴轉述式新聞彙整。</p>
       </div>
       <div class="source-grid">
         <article class="source-card">
@@ -645,7 +1056,7 @@
             </li>
             <li>
               <a href="https://www.anthropic.com/product/claude-cowork" target="_blank" rel="noreferrer">Anthropic: Claude Cowork</a>
-              <span>確認 Claude 已從純對話延伸到在電腦與應用程式上直接完成工作。</span>
+              <span>確認 Claude 已從純對話延伸到可直接在電腦與應用程式上完成工作。</span>
             </li>
             <li>
               <a href="https://deepmind.google/technologies/project-mariner/" target="_blank" rel="noreferrer">Google DeepMind: Project Mariner</a>
@@ -664,19 +1075,19 @@
               <span>確認 Manus 主打自治式 general AI agent 與完整工作交付。</span>
             </li>
           </ul>
-          <p class="footnote">註：這裡的「熱門」指 2026 年 5 月前仍有明確產品推進、持續更新或被官方重點呈現，不代表全球市占或唯一標準答案。</p>
+          <p class="footnote">註：這裡的「熱門」指截至 2026 年 5 月 22 日仍有明確產品推進、持續更新或被官方重點呈現，不代表全球市占排名。</p>
         </article>
         <article class="source-card">
-          <h3>我會怎麼用這頁</h3>
+          <h3>這頁可以怎麼用</h3>
           <ul class="source-list">
             <li>
-              <span>想做內部簡報：直接截圖卡片區，作為市場掃描首頁。</span>
+              <span>當作簡報首頁：先用視覺化首屏抓注意力，再往下拆產品差異。</span>
             </li>
             <li>
-              <span>想挑工具試用：先看「適合誰」與「目前狀態」，可少踩很多限制。</span>
+              <span>當作產品頁 Demo：目前已是單檔 HTML，可直接掛在 GitHub Pages。</span>
             </li>
             <li>
-              <span>想繼續做成網站：這個 HTML 已是獨立檔，可再加 logo、CTA、表單或多語版。</span>
+              <span>當作選型筆記：每張卡片都可再延伸成更完整的產品研究頁。</span>
             </li>
           </ul>
         </article>
@@ -748,10 +1159,9 @@
       }
     ];
 
-    const grid = document.getElementById('agent-grid');
-
+    const grid = document.getElementById("agent-grid");
     grid.innerHTML = agents.map((agent) => `
-      <article class="agent-card">
+      <article class="agent-card reveal">
         <div class="agent-top">
           <div>
             <h3 class="agent-name">${agent.name}</h3>
@@ -775,7 +1185,21 @@
           <a class="source-link" href="${agent.url}" target="_blank" rel="noreferrer">官方來源</a>
         </div>
       </article>
-    `).join('');
+    `).join("");
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("is-visible");
+          observer.unobserve(entry.target);
+        }
+      });
+    }, {
+      threshold: 0.16,
+      rootMargin: "0px 0px -40px 0px"
+    });
+
+    document.querySelectorAll(".reveal").forEach((node) => observer.observe(node));
   </script>
 </body>
 </html>
